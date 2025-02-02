@@ -1,0 +1,6 @@
+pandas
+sqlalchemy
+psycopg2
+apache-airflow
+docker
+pytest
