@@ -175,3 +175,6 @@ data/
 
 # vscode
 .vscode/
+
+# config
+config/config.yaml
