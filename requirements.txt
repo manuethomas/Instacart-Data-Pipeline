@@ -1,6 +1,7 @@
 pandas
-sqlalchemy
+sqlalchemy<2.0
 psycopg2
 apache-airflow
 docker
 pytest
+pyyaml
