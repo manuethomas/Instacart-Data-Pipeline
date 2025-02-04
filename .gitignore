@@ -178,3 +178,6 @@ data/
 
 # config
 config/config.yaml
+
+# logs
+logs/
