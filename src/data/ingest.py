@@ -1,63 +1,77 @@
-import pandas as pd
+from utils.common import read_yaml
+from utils.common import get_size
+from constants import CONFIG_FILE_PATH
 import os
-from utils.database import get_db_connection
+from pathlib import Path
+import requests
+import zipfile
 from utils.logging import logger
 
-def ingest_data(data_source):
-    """Ingests data from CSV files in a directory into a PostgreSQL database."""
+def download_file(url, filename: str, download_dir: str):
+    """Download file from a url and save it at the specified path
 
-    # Establish database connection
-    engine = get_db_connection()
-    if engine is None:
-        logger.error("Failed to establish databae connection. Exiting..")
-        return
+       Args:
+            url: Source url
+            filename: The local filename to save the downloded file as
+            download_dir: The local download directory path
+    """
 
-    # Define input directory
-    input_dir = os.path.join(os.getcwd(),'data', data_source)
+    filepath = Path(download_dir) / filename
+        
+    if os.path.exists(filepath):
+        logger.info(f"{filename} of size {get_size(Path(download_dir) / filename)} already exists!.")     
 
-    if not os.path.exists(input_dir):
-        logger.error(f"Input directory not found: {input_dir}")
-        return
+    else:
 
-    if not os.listdir(input_dir):
-        logger.error("Input directory is empty")
-        return
-    
-    csv_files_flag = False
+        try:
+            response = requests.get(url, stream=True) # stream = True for large files
+            response.raise_for_status() # Raise and exception for bad status codes
+            with open(filepath, 'wb') as file:
+                for chunk in response.iter_content(chunk_size=8192): # Chunks for larger files
+                    file.write(chunk)
+            file.close()
+            logger.info(f"Finished downloading {filename} at {Path.cwd() / filepath}")
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error downloading file: {e}")
+        except OSError:
+            logger.error(f"Error writing file: {e}")
 
-    for filename in os.listdir(input_dir):
-        if filename.endswith('.csv'):
-            csv_files_flag = True
-            input_path = os.path.join(input_dir, filename)
-            table_name = filename[:-4]
+def unzip_file(filename, download_dir, unzip_dir):
+    """Unzip the files to specified path
 
-            logger.info(f"Found {filename} in {input_dir}. Starting upload to table '{table_name}'..." )
+       Args:
+            filepath: Path to downloaded file
+            download_dir: Path to download directory
+            unzip_dir: Extract file to this directory
+    """
+    filepath = Path(download_dir) / filename
+    os.makedirs(unzip_dir, exist_ok=True)
+    try:
+        with zipfile.ZipFile(filepath, 'r') as zip_ref:
+            zip_ref.extractall(unzip_dir)
+        logger.info(f"Unzipping of {filename} to {Path.cwd() / filepath} completed")
+    except Exception as e:
+        logger.error(f"Unzipping of {filename} to {Path.cwd() / filepath} failed")
 
-            try:
-                # Read CSV in chunks and load data into PostgreSQL
-                for chunk in pd.read_csv(input_path, chunksize=500000):
 
-                    try:
-                        chunk.to_sql(table_name, engine, if_exists='append', index=False)
-                        logger.info(f"{len(chunk)} rows processed and added to {table_name}.")
-                    except Exception as e:
-                        logger.error(f"Error loading chunk into '{table_name}': {e}")
+if __name__ == "__main__":
 
-            except pd.errors.EmptyDataError:
-                logger.error(f"Error: CSV file is empty: {input_path}")
-            except pd.errors.ParserError:
-                logger.error(f"Error parsing csv file: {input_path}")
-            except Exception as e:
-                logger.error(f"Error reading csv file {input_path}: {e}")
+    # Get config file
+    try:
+        config_file = read_yaml(CONFIG_FILE_PATH)   
+        logger.info(f"yaml file at {Path.cwd() / CONFIG_FILE_PATH} loaded successfully")
+    except Exception as e:
+        raise e
 
-            logger.info(f"Finished uploading {filename} to {table_name}.")
+    source_url = config_file.data_ingestion.source_url
+    download_dir = config_file.data_ingestion.download_dir
+    filename = config_file.data_ingestion.filename
+    unzip_dir = config_file.data_ingestion.unzip_dir
 
-    if not csv_files_flag:
-        logger.error("No CSV files found")
 
-    logger.info("Data ingestion completed without error")
+    # Download file
+    download_file(source_url, filename, download_dir)
 
-if __name__ == '__main__':
-    data_source = 'raw' # Can be raw / processed / external
-    ingest_data(data_source)
-
+    # Unzip file
+    unzip_file(filename, download_dir, unzip_dir)
+        

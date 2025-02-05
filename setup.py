@@ -12,7 +12,9 @@ setup(
         #'apache-airflow',
         #'docker',
         'pytest',
-        'pyyaml'
+        'pyyaml',
+        'python-box>=5.0,<6.0',
+        'requests'
     ],
     entry_points={
         'console_scripts': [
