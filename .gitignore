@@ -171,13 +171,14 @@ cython_debug/
 .pypirc
 
 # Datasets
-data/
-
+data/raw/*
+data/processed/*
+data/external/*
 # vscode
 .vscode/
 
 # config
-config/config.yaml
+config/*
 
 # logs
-logs/
+logs/*
