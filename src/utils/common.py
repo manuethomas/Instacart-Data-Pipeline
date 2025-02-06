@@ -5,6 +5,7 @@ from pathlib import Path
 import os
 from box import ConfigBox
 from box.exceptions import BoxValueError
+import pandas as pd
 
 def get_db_connection() -> Engine:
     """Establish PostgreSQL Database Connection
@@ -71,7 +72,7 @@ def read_yaml(filepath: Path) -> ConfigBox:
         raise e
     
 
-def get_size(filepath: Path) ->str:
+def get_size(filepath: Path) -> str:
     """Takes a filepath and returns the filesize
 
        Args:
@@ -85,3 +86,29 @@ def get_size(filepath: Path) ->str:
         return f"~ {round(size_on_disk/(1024), 2)} KB"
     else:
         return f"~ {round(size_on_disk/(1024*1024), 2)} MB"
+    
+
+def query_database_to_dataframe(query: str) -> pd.DataFrame:
+    """Queries a PostgreSQL database and returns a pandas dataframe
+
+       Args:
+            query: The SQL query to execute
+
+       Returns:
+            A pandas dataframe containing the query results
+    
+    """
+    try:
+        # Create database engine
+        engine = get_db_connection()
+
+        # Execute the query and read the result into a Dataframe
+        df = pd.read_sql_query(query, engine)
+
+        # Close connection
+        engine.dispose()
+
+        return df
+    except Exception as e:
+        logger.error(f"Failed reading SQL query {query}: \n{e}")
+        raise e
