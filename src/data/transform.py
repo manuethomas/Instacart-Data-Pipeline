@@ -4,9 +4,9 @@ from pathlib import Path
 from utils.logging import logger
 
 class DataTransformation:
-    def __init__(self, source_dir, output_dir):
-        self.source_dir = source_dir
-        self.output_dir = output_dir
+    def __init__(self, config):
+        self.source_dir = config.data_transformation.source_dir
+        self.output_dir = config.data_transformation.output_dir
 
     def read_files(self):
         """Takes in raw datasets, applies the tranformations and saves them in csv format
@@ -31,6 +31,9 @@ class DataTransformation:
             self.dim_products['product_name'] = self.dim_products['product_name'].astype('category')
             self.dim_aisles['aisle'] = self.dim_aisles['aisle'].astype('category')
             self.dim_departments['department'] = self.dim_departments['department'].astype('category')
+
+            logger.info("All transformations applied")
+
         except Exception as e:
             logger.error(f"Applying transformation failed: {e}")
             raise e
@@ -44,6 +47,8 @@ class DataTransformation:
             self.dim_products.to_csv(Path(self.output_dir) / 'dim_products.csv')
             self.dim_departments.to_csv(Path(self.output_dir) / 'dim_departments.csv')
             self.dim_aisles.to_csv(Path(self.output_dir) / "dim_aisles.csv")
+
+            logger.info("Converted the transformed files to csv")
         except Exception as e:
             logger.error(f"Failed converting dataframe to csv: {e}")
             raise e 
@@ -54,11 +59,9 @@ if __name__ == '__main__':
     # Get config
     config_obj = Configuration()
     config = config_obj.get_config()
-    source_dir = config.data_transformation.source_dir
-    output_dir = config.data_transformation.output_dir
 
     # Transformations
-    obj = DataTransformation(source_dir, output_dir)
+    obj = DataTransformation(config)
     obj.read_files()
     obj.apply_transformation()
     obj.export_as_csv()
