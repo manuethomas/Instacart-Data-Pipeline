@@ -27,6 +27,7 @@ class DataTransformation:
 
         try:
             self.fact_orders['order_hour_of_day'] = self.fact_orders['order_hour_of_day'].astype('int')
+            self.fact_orders['days_since_prior_order'] = self.fact_orders['days_since_prior_order'].astype('Int64')
             self.fact_orders['eval_set'] = self.fact_orders['eval_set'].astype('category')
             self.dim_products['product_name'] = self.dim_products['product_name'].astype('category')
             self.dim_aisles['aisle'] = self.dim_aisles['aisle'].astype('category')
@@ -41,12 +42,12 @@ class DataTransformation:
     def export_as_csv(self):
         """Export Dataframe to Csv"""
         try:
-            self.fact_orders.to_csv(Path(self.output_dir) / 'fact_orders.csv')
-            self.fact_order_products_prior.to_csv(Path(self.output_dir) / 'fact_order_products_prior.csv')
-            self.fact_order_products.to_csv(Path(self.output_dir) / 'fact_order_products.csv')
-            self.dim_products.to_csv(Path(self.output_dir) / 'dim_products.csv')
-            self.dim_departments.to_csv(Path(self.output_dir) / 'dim_departments.csv')
-            self.dim_aisles.to_csv(Path(self.output_dir) / "dim_aisles.csv")
+            self.fact_orders.to_csv(Path(self.output_dir) / 'fact_orders.csv', index=False)
+            self.fact_order_products_prior.to_csv(Path(self.output_dir) / 'fact_order_products_prior.csv', index=False)
+            self.fact_order_products.to_csv(Path(self.output_dir) / 'fact_order_products.csv', index=False)
+            self.dim_products.to_csv(Path(self.output_dir) / 'dim_products.csv', index=False)
+            self.dim_departments.to_csv(Path(self.output_dir) / 'dim_departments.csv', index=False)
+            self.dim_aisles.to_csv(Path(self.output_dir) / "dim_aisles.csv", index=False)
 
             logger.info("Converted the transformed files to csv")
         except Exception as e:

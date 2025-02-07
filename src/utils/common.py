@@ -82,8 +82,8 @@ def get_size(filepath: Path) -> str:
             The size of a file in Mega Bytes
     """
     size_on_disk = os.path.getsize(filepath)
-    if(size_on_disk < 1024**1024):
-        return f"~ {round(size_on_disk/(1024), 2)} KB"
+    if(size_on_disk < 1024):
+        return f"~ {round(size_on_disk/1024, 2)} KB"
     else:
         return f"~ {round(size_on_disk/(1024*1024), 2)} MB"
     

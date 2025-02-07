@@ -25,9 +25,14 @@ class DataLoading:
                     logger.info(f"Found {filename} in {self.source_dir}. Starting upload to table '{tablename}'")
                 try:
                     # Start uploading in chunks
-                    for chunk in pd.read_csv(filepath, chunksize=500000):
-                        chunk.to_sql(tablename, engine, if_exists='append', index=False)
-                        logger.info(f"{len(chunk)} rows processed and added to {tablename}")
+                    with engine.connect() as connection:
+                        transaction = connection.begin()
+
+                        for chunk in pd.read_csv(filepath, chunksize=500000):
+                            chunk.to_sql(tablename, engine, if_exists='append', index=False)
+                            logger.info(f"{len(chunk)} rows processed and added to {tablename}")
+
+                        transaction.commit()
                 except Exception as e:             
                     logger.error(f"Error uploading '{filename}' to '{tablename}': {e}")
                     raise e
