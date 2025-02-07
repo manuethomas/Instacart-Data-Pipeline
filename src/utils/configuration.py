@@ -7,6 +7,7 @@ class Configuration:
     def __init__(self):
         pass
     
+    @classmethod
     def get_config(self):
         try:
             self.config = read_yaml(CONFIG_FILE_PATH)   

@@ -42,8 +42,9 @@ class DataLoading:
 
 
 if __name__ == '__main__':
-    config_obj = Configuration()
-    config = config_obj.get_config()
+    # Get config
+    config = Configuration.get_config()
+    
     obj = DataLoading(config)
     obj.load_data()
 

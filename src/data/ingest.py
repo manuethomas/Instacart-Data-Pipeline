@@ -61,8 +61,8 @@ class DataIngestion:
 if __name__ == '__main__':
 
     # Get config
-    config_obj = Configuration()
-    config = config_obj.get_config()
+    config = Configuration.get_config()
+    
     obj = DataIngestion(config)
 
     # Download file
