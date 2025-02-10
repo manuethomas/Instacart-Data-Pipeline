@@ -5,3 +5,7 @@ apache-airflow
 docker
 pytest
 pyyaml
+ipykernel
+matplotlib
+seaborn
+plotly
