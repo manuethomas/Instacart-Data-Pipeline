@@ -1,7 +1,7 @@
 import pandas as pd
-from utils.configuration import Configuration
+from instacart_data_pipeline.utils.configuration import Configuration
 from pathlib import Path
-from utils.logging import logger
+from instacart_data_pipeline.utils.logging import logger
 
 class DataTransformation:
     def __init__(self, config):
@@ -32,6 +32,9 @@ class DataTransformation:
             self.dim_products['product_name'] = self.dim_products['product_name'].astype('category')
             self.dim_aisles['aisle'] = self.dim_aisles['aisle'].astype('category')
             self.dim_departments['department'] = self.dim_departments['department'].astype('category')
+
+        # Remove duplicates
+        # Data validation - Checking data against predefined rules or constraints to identify and correct errors (e.g., ensuring dates are in the correct format, values are within a valid range).
 
             logger.info("All transformations applied")
 

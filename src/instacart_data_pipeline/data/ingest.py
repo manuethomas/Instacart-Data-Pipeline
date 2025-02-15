@@ -1,10 +1,10 @@
-from utils.common import get_size
+from instacart_data_pipeline.utils.common import get_size
 import os
 from pathlib import Path
 import requests
 import zipfile
-from utils.logging import logger
-from utils.configuration import Configuration
+from instacart_data_pipeline.utils.logging import logger
+from instacart_data_pipeline.utils.configuration import Configuration
 
 class DataIngestion:
     def __init__(self, config):

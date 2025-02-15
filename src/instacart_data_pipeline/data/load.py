@@ -1,9 +1,9 @@
 import os
-from utils.configuration import Configuration
-from utils.logging import logger
+from instacart_data_pipeline.utils.configuration import Configuration
+from instacart_data_pipeline.utils.logging import logger
 import pandas as pd
 from pathlib import Path
-from utils.common import get_db_connection
+from instacart_data_pipeline.utils.common import get_db_connection
 
 class DataLoading:
     def __init__(self, config):

@@ -1,6 +1,7 @@
 import yaml
-from sqlalchemy import create_engine, Engine, text
-from utils.logging import logger
+from sqlalchemy import create_engine, text
+from sqlalchemy.engine import Engine
+from instacart_data_pipeline.utils.logging import logger
 from pathlib import Path
 import os
 from box import ConfigBox

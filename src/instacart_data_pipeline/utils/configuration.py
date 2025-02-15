@@ -1,8 +1,8 @@
 from dotenv import load_dotenv
 import os
-from utils.common import read_yaml
+from instacart_data_pipeline.utils.common import read_yaml
 from pathlib import Path
-from utils.logging import logger
+from instacart_data_pipeline.utils.logging import logger
 
 class Configuration:
     def __init__(self):
