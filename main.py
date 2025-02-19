@@ -1,13 +1,12 @@
-from utils.common import logger
-from utils.configuration import Configuration
-from data.ingest import DataIngestion
-from data.transform import DataTransformation
-from data.load import DataLoading
+from instacart_data_pipeline.utils.common import logger
+from instacart_data_pipeline.utils.configuration import Configuration
+from instacart_data_pipeline.data.ingest import DataIngestion
+from instacart_data_pipeline.data.transform import DataTransformation
+from instacart_data_pipeline.data.load import DataLoading
 
 def main():
     # Getting config
-    config_obj = Configuration()
-    config = config_obj.get_config()
+    config = Configuration.get_config()
 
     # STAGE: DataIngestion
 
@@ -19,7 +18,7 @@ def main():
     ingest.unzip_file()
     logger.info("----Data Ingestion Completed----\n")
 
-        
+
     # STAGE: DataTransformation
 
     logger.info(">>>>>-----DataTransformation Stage-----<<<<<")
@@ -37,6 +36,7 @@ def main():
     load = DataLoading(config)
     load.load_data()
     logger.info("----Data Loading Completed---- \n")
+
 
 if __name__ == '__main__':
     main()
