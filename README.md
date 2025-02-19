@@ -160,6 +160,8 @@ docker compose down
 
 ### 2.5. Exploratory Analysis Using Python & SQL
 
+The [dataset](https://u.pcloud.link/publink/show?code=XZfiRp5ZvAhSLHjJjb08X96ta6FJnX8pqWKX) and [schema](https://gist.github.com/jeremystan/c3b39d947d9b88b3ccff3147dbcf6c6b) are available.... 
+
 Data Analysis was conducted in both Python and SQL to answer the following questions
 1. When do people order - Hour of day, Day of week ?
 2. How many days since the recent order ?
