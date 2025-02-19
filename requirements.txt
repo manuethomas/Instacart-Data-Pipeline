@@ -1,11 +1,11 @@
 pandas
-sqlalchemy<2.0
-psycopg2
-apache-airflow
-docker
+sqlalchemy
+psycopg2-binary
 pytest
 pyyaml
 ipykernel
 matplotlib
 seaborn
 plotly
+python-dotenv
+docker

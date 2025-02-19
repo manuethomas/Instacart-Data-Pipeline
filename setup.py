@@ -8,13 +8,12 @@ setup(
     install_requires=[
         'pandas',
         'sqlalchemy',
-        'psycopg2',
-        #'apache-airflow',
-        #'docker',
+        'psycopg2-binary',
         'pytest',
         'pyyaml',
         'python-box>=5.0,<6.0',
-        'requests'
+        'requests',
+        'python-dotenv'
     ],
     entry_points={
         'console_scripts': [

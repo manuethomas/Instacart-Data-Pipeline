@@ -9,14 +9,23 @@ def create_folder_structure(base_path):
         "sql/procedures",
         "sql/views",
         "sql/triggers",
-        "src/data",
-        "src/analysis",
-        "src/pipeline",
-        "src/utils",
+        "sql/tables",
+        "src/instacart_data_pipeline/data",
+        "src/instacart_data_pipeline/constants",
+        "src/instacart_data_pipeline/pipeline",
+        "src/instacart_data_pipeline/utils",
         "tests",
         "notebooks",
         "config",
-        "docker"
+        "airflow/config",
+        "airflow/dags",
+        "airflow/logs",
+        "airflow/plugins",
+        "airflow/sql",
+        "airflow/packages",
+        "airflow/data/raw",
+        "airflow/data/processed",
+        "airflow/data/external"
     ]
 
     for folder in folders:
@@ -25,37 +34,38 @@ def create_folder_structure(base_path):
 
     # Create empty files
     files = [
-        "src/__init__.py",
-        "src/data/__init__.py",
-        "src/data/ingest.py",
-        "src/data/transform.py",
-        "src/data/load.py",
-        "src/analysis/__init__.py",
-        "src/analysis/analyze.py",
-        "src/analysis/visualize.py",
-        "src/pipeline/__init__.py",
-        "src/pipeline/airflow_dags.py",
-        "src/utils/__init__.py",
-        "src/utils/database.py",
-        "src/utils/logging.py",
-        "src/constants/__init__.py",
-        "src/main.py",
+        "src/instacart_data_pipeline/__init__.py",
+        "src/instacart_data_pipeline/data/__init__.py",
+        "src/instacart_data_pipeline/data/ingest.py",
+        "src/instacart_data_pipeline/data/transform.py",
+        "src/instacart_data_pipeline/data/load.py",
+        "src/instacart_data_pipeline/pipeline/__init__.py",
+        "src/instacart_data_pipeline/pipeline/pipeline.py",
+        "src/instacart_data_pipeline/utils/__init__.py",
+        "src/instacart_data_pipeline/utils/common.py",
+        "src/instacart_data_pipeline/utils/configuration.py",
+        "src/instacart_data_pipeline/utils/logging.py",
+        "src/instacart_data_pipeline/constants/__init__.py",
         "sql/analysis/analysis.sql",
-        "sql/analysis/create_tables.sql",
         "sql/procedures/procedures.sql",
         "sql/views/views.sql",
         "sql/triggers/triggers.sql",
+        "sql/tables/create_tables.sql"
         "tests/__init__.py",
         "tests/test_ingest.py",
         "tests/test_transform.py",
         "tests/test_analyze.py",
         "notebooks/exploratory_analysis.ipynb",
         "config/config.yaml",
-        "config/airflow.cfg",
-        "docker/Dockerfile",
-        "docker/docker-compose.yml",
+        "airflow/config/instacart_config.yaml",
+        "airflow/dags/Databse_Setup_dag.py",
+        "airflow/dags/ETL_Pipeline_dag.py",
+        "airflow/sql/initial_setup.py"
+        "airflow/Dockerfile",
+        "airflow/docker-compose.yml",
+        "airflow/.dockerignore"
         "requirements.txt",
-        "setup.py",
+        "setup.py"
     ]
 
     for file in files:
