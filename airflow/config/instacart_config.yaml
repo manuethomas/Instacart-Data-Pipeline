@@ -1,0 +1,19 @@
+database:
+  host: host.docker.internal
+  port: 5432
+  user: postgres
+  password: postgres
+  dbname: instacart_db
+
+data_ingestion:
+  source_url: https://p-def3.pcloud.com/D4ZyfN51vZ8h8Haj7ZZZddHxXkZ2ZZ8uXZkZPO7ZO8ZrHZSRZfiRp5ZLuqC8451j00IAlmoLLJNlQrWVTXV/instacart_dataset.zip
+  download_dir: ./data/raw
+  unzip_dir: ./data/raw
+  filename: instacart_dataset.zip
+
+data_transformation:
+  source_dir: ./data/raw
+  output_dir: ./data/processed
+  
+data_loading:
+  source_dir: ./data/processed
