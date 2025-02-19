@@ -9,7 +9,7 @@ class DataTransformation:
         self.output_dir = config.data_transformation.output_dir
 
     def read_files(self):
-        """Takes in raw datasets, applies the tranformations and saves them in csv format
+        """Reads the csv files to a Pandas Dataframe
         """
         try:
             self.fact_orders = pd.read_csv(Path(self.source_dir) / "fact_orders.csv")

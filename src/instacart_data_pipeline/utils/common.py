@@ -1,14 +1,14 @@
 import yaml
 from sqlalchemy import create_engine, text
-from sqlalchemy.engine import Engine
 from instacart_data_pipeline.utils.logging import logger
 from pathlib import Path
 import os
 from box import ConfigBox
 from box.exceptions import BoxValueError
 import pandas as pd
+from dotenv import load_dotenv
 
-def get_db_connection() -> Engine:
+def get_db_connection():
     """Establish PostgreSQL Database Connection
 
        Returns:
@@ -16,7 +16,9 @@ def get_db_connection() -> Engine:
     """
 
     # Load the configuration file
-    with open('config/config.yaml', 'r') as file:
+    load_dotenv()
+    config_path = os.getenv("INSTACART_CONFIG_FILE_PATH")
+    with open(config_path, 'r') as file:
         config = yaml.safe_load(file)
 
     # Extract database credentials from the configuration file
@@ -28,7 +30,7 @@ def get_db_connection() -> Engine:
     dbname = db_config['dbname']
 
     # Create the database connection string
-    connection_string = f'postgresql+psycopg2://{user}:{password}@{host}:{port}/{dbname}'
+    connection_string = f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{dbname}"
 
     # Create and return the database engine
     engine = create_engine(connection_string)
@@ -45,7 +47,6 @@ def execute_sql_file(file_path, engine):
                 statements = sql_script.split(';')
                 for statement in statements:
                     if statement.strip():  # Skip empty statements
-                        #logger.info(f"Executing statement: {statement.strip()}")
                         connection.execute(text(statement))
                         logger.info("Statement executed successfully")
             transaction.commit()
