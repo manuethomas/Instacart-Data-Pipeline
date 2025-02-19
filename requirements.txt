@@ -1,5 +1,5 @@
 pandas
-sqlalchemy
+sqlalchemy>2.0
 psycopg2-binary
 pytest
 pyyaml
@@ -8,4 +8,3 @@ matplotlib
 seaborn
 plotly
 python-dotenv
-docker
